@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 import time
-# import requests
+import requests
 # from datetime import datetime, date, time, timezone
 import json
 from datetime import datetime
@@ -42,6 +42,14 @@ if __name__ == '__main__':
                 # print S[0]
                 my_string = S[0] + " " + S[1] + " " + S[6] + " " + S[4]
                 print (my_string)
+                try:
+                    # Execute the SQL command
+                    r = requests.post('https://tempapi.ct8.pl/addtemp', json={'my_epoch': S[0], 'nr_hex': S[1],'temp': S[6],'nr_czujnika': S[4]})
+                except:
+                    # Rollback in# case there is any error
+                    print("błąd wysłania do API" )
+
+            #     #     db2.rollback()
             #     #   try:
             #     # Execute the SQL command
             #     #      cursor.execute("""
