@@ -4,33 +4,35 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 import sys
 
-
-class Window(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.resize(300, 300)
-        self.setWindowTitle("CodersLegacy")
-        self.setWindowIcon(QIcon("icon.jpg"))
-
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-
-        label = QLabel("Hello World")
-        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(label)
-
-
-app = QApplication(sys.argv)
-window = Window()
-window.show()
-sys.exit(app.exec())
-
-# cmd = 'sudo digitemp_DS9097U  -a  -c /home/pi/Desktop/BMS/digitemp1.conf'
-
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    class Window(QWidget):
+        def __init__(self):
+            super().__init__()
+            self.resize(600, 600)
+            self.setWindowTitle("CodersLegacy")
+            self.setWindowIcon(QIcon("icon.jpg"))
 
+            layout = QVBoxLayout()
+            self.setLayout(layout)
+
+            label = QLabel("Hello World")
+            label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            layout.addWidget(label)
+            label2 = QLabel("Hello")
+            font = label2.font()
+            font.setPointSize(30)
+            label2.setFont(font)
+            label2.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+            layout.addWidget(label2)
+            # self.setCentralWidget(widget)
+
+    app = QApplication(sys.argv)
+    window = Window()
+    window.show()
+    sys.exit(app.exec())
+
+    # cmd = 'sudo digitemp_DS9097U  -a  -c /home/pi/Desktop/BMS/digitemp1.conf'
     # window()
     cmd = 'digitemp1.conf'
     cmd1 = './temp'
@@ -38,6 +40,7 @@ if __name__ == '__main__':
 
     while True:
         print("START1")
+        label = QLabel("START1")
         # print(time.strftime('%Y-%m-%d %H:%M:%S'))
         time.sleep(2)
         fo = open(cmd1, "r+")
