@@ -1,16 +1,37 @@
 #!/usr/bin/env python
-#
-import time
-import requests
-# from datetime import datetime, date, time, timezone
-import json
-from datetime import datetime
+from PyQt6.QtWidgets import QApplication, QVBoxLayout, QWidget, QLabel
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt
+import sys
+
+
+class Window(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.resize(300, 300)
+        self.setWindowTitle("CodersLegacy")
+        self.setWindowIcon(QIcon("icon.jpg"))
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        label = QLabel("Hello World")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(label)
+
+
+app = QApplication(sys.argv)
+window = Window()
+window.show()
+sys.exit(app.exec())
 
 # cmd = 'sudo digitemp_DS9097U  -a  -c /home/pi/Desktop/BMS/digitemp1.conf'
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+
+    # window()
     cmd = 'digitemp1.conf'
     cmd1 = './temp'
     timefmt = '%Y-%m-%d %H:%M:%S'
