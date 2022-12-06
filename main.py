@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+from datetime import datetime
+
+from PyQt5.uic.properties import QtWidgets
 from PyQt6.QtWidgets import QApplication, QVBoxLayout, QWidget, QLabel
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
@@ -6,6 +9,12 @@ import sys
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    def display_time():
+
+        current_time = datetime.datetime.now().strftime('%Y.%m.%d - %H:%M:%S')
+        label.setText(current_time)
+
+        print('current_time:', current_time)
     class Window(QWidget):
         def __init__(self):
             super().__init__()
@@ -29,6 +38,8 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     window = Window()
+    label = QtWidgets.QLabel(window, text='???', alignment=Qt.AlignCenter)
+    window.setCentralWidget(label)
     window.show()
     sys.exit(app.exec())
 
@@ -39,7 +50,7 @@ if __name__ == '__main__':
     timefmt = '%Y-%m-%d %H:%M:%S'
 
     while True:
-        print("START1")
+        print(label)
         label = QLabel("START1")
         # print(time.strftime('%Y-%m-%d %H:%M:%S'))
         time.sleep(2)
