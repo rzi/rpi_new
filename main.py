@@ -38,8 +38,8 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     window = Window()
-    label = QtWidgets.QLabel(window, text='???', alignment=Qt.AlignCenter)
-    window.setCentralWidget(label)
+    label3 = QLabel('???')
+    window.setCentralWidget(label3)
     window.show()
     sys.exit(app.exec())
 
