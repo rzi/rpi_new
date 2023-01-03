@@ -1,41 +1,5 @@
-# import sys
-# from PyQt6.QtWidgets import QApplication, QPushButton,QLabel,QVBoxLayout,QWidget
-
-# class Window(QWidget):
-#     def __init__(self):
-#         super().__init__()
-
-#         self.setWindowTitle("My App")
-#         self.setGeometry(100,100,400,400)
-
-#         layout = QVBoxLayout()
-#         self.setLayout(layout)
- 
-#         # self.label = QLabel("Aplikacja do zarządzania pomiarami temperatur")
-#         # self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-#         # self.label.adjustSize()
-#         # layout.addWidget(self.label)
-#         label = QLabel("Zarządzanie pomiarami temperatur", self)
-#         label.adjustSize()
-#         label.move(20, 20)
-#         layout.addWidget(label)
-
-#         button = QPushButton("Start",self)        
-#         button.move(150,150)
-#         button.clicked.connect(self.button_clicked)
-#         layout.addWidget(button)
-        
-#     def button_clicked(self):
-#         print( "clicked")
-#         self.label.setText("New and Updated Text")
-
-
-# app = QApplication(sys.argv)
-# window = Window()
-# window.show()
-# sys.exit(app.exec())
 from PyQt6.QtWidgets import (
-      QApplication, QVBoxLayout, QWidget, QLabel, QPushButton
+      QApplication, QVBoxLayout, QWidget, QLabel, QPushButton,QTextEdit,QGridLayout
 )
 from PyQt6.QtCore import Qt
 import sys
@@ -46,24 +10,43 @@ class Window(QWidget):
         self.resize(600, 600)
         self.setWindowTitle("Pomiary temperatur")
  
-        layout = QVBoxLayout()
+        layout = QGridLayout()
         self.setLayout(layout)
  
         self.label = QLabel("Zarządzanie pomiarami temperatur")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         # self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         # self.label.adjustSize()
-        layout.addWidget(self.label)
- 
+        layout.addWidget(self.label ,0,0,1,2)
+
+
+        self.labelPath = QLabel("path: ")
+        self.labelPath.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        
+        layout.addWidget(self.labelPath, 1,0)
+
+        self.textEdit = QTextEdit()
+        self.textEdit.setPlainText("sudo digitemp_DS9097U  -a  -c /home/pi/Desktop/BMS/digitemp1.conf")
+        self.textEdit.adjustSize()
+        layout.addWidget(self.textEdit,1,1)
+
         button = QPushButton("START",self)
         button.clicked.connect(self.start)
-        # button.move(10,10)
-        layout.addWidget(button)
+        button.move(10,10)
+        layout.addWidget(button,2,0)
  
         button = QPushButton("Stop")
         button.clicked.connect(self.stop)
-        layout.addWidget(button)
- 
+        layout.addWidget(button,2,1)
+
+        self.label = QLabel("text: ")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        layout.addWidget(self.label, 3,0)
+        
+        self.textEdit = QTextEdit()
+        self.textEdit.setPlainText("text")
+        layout.addWidget(self.textEdit,3,1)
+
     def start(self):
         self.label.setText("New and Updated Text")
      
