@@ -1,5 +1,4 @@
 from datetime import datetime
-
 import requests
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import (
@@ -9,11 +8,11 @@ from PyQt6.QtCore import Qt
 import sys
 import time
 
-DURATION_INT = 60
-Start = 0
+DURATION_INT = 10
 cmd = 'digitemp1.conf'
 cmd1 = './temp'
 timefmt = '%Y-%m-%d %H:%M:%S'
+
 
 def secs_to_minsec(secs: int):
     mins = secs // 60
@@ -25,6 +24,7 @@ def secs_to_minsec(secs: int):
 class Window(QWidget):
     def __init__(self):
         super().__init__()
+        self.cmd_text = None
         self.time_left_int = DURATION_INT
         self.myTimer = QtCore.QTimer(self)
 
@@ -83,20 +83,16 @@ class Window(QWidget):
         self.textEdit.setPlainText("")
         layout.addWidget(self.textEdit, 6, 1)
 
-
-
     def start(self):
         print("Start")
-        # odczyt(self, Start)
         self.time_left_int = DURATION_INT
-
         self.myTimer.timeout.connect(self.timerTimeout)
         self.myTimer.start(1000)
+        self.cmd_text =''
 
     def stop(self):
-        Start = 0
         print("Stop")
-
+        self.myTimer.stop()
 
     def init(self):
         print("Init")
@@ -112,16 +108,16 @@ class Window(QWidget):
 
     def update_gui(self):
         minsec = secs_to_minsec(self.time_left_int)
-        # self.timerLabel.setText(minsec)
-        print ("timer", minsec)
+        self.textEdit.setPlainText(minsec)
+        print("timer", minsec)
 
     def odczyt(self):
-        print(time.strftime('%Y-%m-%d %H:%M:%S'))
-        time.sleep(2)
+        print("data i czas", time.strftime('%Y-%m-%d %H:%M:%S'))
+        self.textEdit.setPlainText(time.strftime('%Y-%m-%d %H:%M:%S'))
         fo = open(cmd1, "r+")
         Lines = fo.readlines()
-        print(Lines)
-        count = 0
+        print("Lines: ", Lines)
+        # self.textEdit.setPlainText(Lines)
         for line in Lines:
             S = str.split(line, " ")
             # G = S[3]
@@ -131,23 +127,27 @@ class Window(QWidget):
             # print("Line{}: {}".format(count, line.strip()))
             if S[2] == "Sensor":
                 #     print (S)
-                print(S[0], S[1], S[3], S[4], S[5], S[6])
+                print("read: ", S[0], S[1], S[2], S[3], S[4], S[5])
                 my_date = datetime.fromtimestamp(float(S[0])).strftime('%Y-%m-%d %H:%M:%S')
-                print(my_date)
+                print("mydate", my_date)
+                self.textEdit.setPlainText(my_date)
                 #     mydate = datetime.datetime.fromtimestamp(float(S[0])).strftime('%Y-%m-%d')
                 #     # print mydate
                 mytime = datetime.fromtimestamp(float(S[0])).strftime('%H:%M:%S')
-                print(mytime)
+                print("mytime ", mytime)
+                self.textEdit.setPlainText(mytime)
                 # print S[0]
-                my_string = S[0] + " " + S[1] + " " + S[6] + " " + S[4]
-                print(my_string)
+                my_string = S[0] + " " + S[1] + " " + S[5] + " " + S[3]
+                print("my_string", my_string)
+                self.textEdit.setPlainText(my_string)
                 try:
                     # Execute the SQL command
                     r = requests.post('https://tempapi.ct8.pl/addtemp',
-                                      json={'my_epoch': S[0], 'nr_hex': S[1], 'temp': S[6], 'nr_czujnika': S[4]})
+                                      json={'my_epoch': S[0], 'nr_hex': S[1], 'temp': S[5], 'nr_czujnika': S[3]})
                 except:
                     # Rollback in# case there is any error
                     print("błąd wysłania do API")
+
 
 app = QApplication(sys.argv)
 window = Window()
