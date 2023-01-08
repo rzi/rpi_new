@@ -1,3 +1,5 @@
+import os
+import subprocess
 import sys
 import time
 
@@ -56,7 +58,7 @@ class Window(QWidget):
         layout.addWidget(self.labelPath, 3, 0)
 
         self.textEdit = QTextEdit()
-        self.textEdit.setPlainText("sudo digitemp_DS9097U  -a  -c /home/pi/Desktop/BMS/digitemp1.conf")
+        self.textEdit.setPlainText("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
         self.textEdit.adjustSize()
         self.textEdit.setFixedSize(500, 60)
         layout.addWidget(self.textEdit, 3, 1)
@@ -103,8 +105,16 @@ class Window(QWidget):
     def clear(self):
         print("Wyczyść")
         self.cmd_text = ''
+
     def init(self):
         print("Init")
+        # directories = os.system("ls -lh")
+        # print(directories)
+        directories = os.system("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
+        print(directories)
+        # subprocess.call(["init.sh", "--input_file=input.txt"])
+        # subprocess.call(['sudo', 'digitemp_DS9097U', '-i', '-s', '/dev/ttyUSB0', '-c', '/home/Desktop/BMS/digitemp.conf'], shell=True)
+        # subprocess.Popen([sys.executable, "init.py"])
 
     def timerTimeout(self):
         self.time_left_int -= 1

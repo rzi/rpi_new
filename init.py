@@ -1,0 +1,1 @@
+sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf
