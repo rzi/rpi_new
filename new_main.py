@@ -99,51 +99,27 @@ class Window(QWidget):
 
     def timerTimeout(self):
         self.time_left_int -= 1
-
         if self.time_left_int == 0:
             self.time_left_int = DURATION_INT
             self.odczyt()
-
         self.update_gui()
 
     def update_gui(self):
         minsec = secs_to_minsec(self.time_left_int)
         self.textEdit.setPlainText(self.cmd_text)
         print("timer", minsec)
-        print("cmd_text", self.cmd_text)
+        print("cmd_text \n", self.cmd_text)
 
     def odczyt(self):
-        print("data i czas", time.strftime('%Y-%m-%d %H:%M:%S'))
-        self.textEdit.setPlainText(time.strftime('%Y-%m-%d %H:%M:%S'))
-        # self.cmd_text =self.cmd_text + "\n" + str(time.strftime('%Y-%m-%d %H:%M:%S'))
         fo = open(cmd1, "r+")
         Lines = fo.readlines()
-        print("Lines: ", Lines)
-        # self.cmd_text = self.cmd_text  + "\n" + str(Lines)
-        # self.textEdit.setPlainText(Lines)
         for line in Lines:
             S = str.split(line, " ")
-            # G = S[3]
-            # print(G)
-            # print(S)
-            # count += 1
-            # print("Line{}: {}".format(count, line.strip()))
             if S[2] == "Sensor":
-                #     print (S)
-                print("read: ", S[0], S[1], S[2], S[3], S[4], S[5])
-                my_date = datetime.fromtimestamp(float(S[0])).strftime('%Y-%m-%d %H:%M:%S')
-                print("mydate", my_date)
-                self.textEdit.setPlainText(my_date)
-                #     mydate = datetime.datetime.fromtimestamp(float(S[0])).strftime('%Y-%m-%d')
-                #     # print mydate
-                mytime = datetime.fromtimestamp(float(S[0])).strftime('%H:%M:%S')
-                print("mytime ", mytime)
-                self.textEdit.setPlainText(mytime)
-                # print S[0]
                 my_string = S[0] + " " + S[1] + " " + S[5] + " " + S[3]
-                print("my_string", my_string)
-                self.textEdit.setPlainText(my_string)
-                self.cmd_text = self.cmd_text + str(time.strftime('%Y-%m-%d %H:%M:%S')) + " "+ str(my_string) +"\n"
+                # print("my_string", my_string)
+                # self.textEdit.setPlainText(my_string)
+                self.cmd_text = self.cmd_text + str(time.strftime('%Y-%m-%d %H:%M:%S')) + " " + str(my_string) + "\n"
                 try:
                     # Execute the SQL command
                     r = requests.post('https://tempapi.ct8.pl/addtemp',
