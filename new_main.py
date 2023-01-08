@@ -1,12 +1,12 @@
-from datetime import datetime
-import requests
-from PyQt6 import QtCore
-from PyQt6.QtWidgets import (
-    QApplication, QVBoxLayout, QWidget, QLabel, QPushButton, QTextEdit, QGridLayout
-)
-from PyQt6.QtCore import Qt
 import sys
 import time
+
+import requests
+from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (
+    QApplication, QWidget, QLabel, QPushButton, QTextEdit, QGridLayout
+)
 
 DURATION_INT = 10
 cmd = 'digitemp1.conf'
@@ -52,7 +52,7 @@ class Window(QWidget):
         layout.addWidget(button, 2, 0)
 
         self.labelPath = QLabel("path: ")
-        self.labelPath.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.labelPath.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
         layout.addWidget(self.labelPath, 3, 0)
 
         self.textEdit = QTextEdit()
@@ -65,7 +65,7 @@ class Window(QWidget):
         self.labelPath.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         layout.addWidget(self.labelPath, 4, 0)
 
-        button = QPushButton("START", self)
+        button = QPushButton("Start", self)
         button.clicked.connect(self.start)
         button.setFixedSize(80, 25)
         layout.addWidget(button, 5, 0)
@@ -75,8 +75,13 @@ class Window(QWidget):
         button.setFixedSize(80, 25)
         layout.addWidget(button, 5, 1)
 
+        button = QPushButton("Wyczyść")
+        button.clicked.connect(self.clear)
+        button.setFixedSize(80, 25)
+        layout.addWidget(button, 7, 1)
+
         self.label = QLabel("CMD: ")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
         layout.addWidget(self.label, 6, 0)
 
         self.textEdit = QTextEdit()
@@ -94,6 +99,10 @@ class Window(QWidget):
         print("Stop")
         self.myTimer.stop()
         self.cmd_text = ''
+
+    def clear(self):
+        print("Wyczyść")
+        self.cmd_text = ''
     def init(self):
         print("Init")
 
@@ -108,7 +117,7 @@ class Window(QWidget):
         minsec = secs_to_minsec(self.time_left_int)
         self.textEdit.setPlainText(self.cmd_text)
         print("timer", minsec)
-        print("cmd_text \n", self.cmd_text)
+        print("cmd_text\n", self.cmd_text)
 
     def odczyt(self):
         fo = open(cmd1, "r+")
@@ -119,7 +128,7 @@ class Window(QWidget):
                 my_string = S[0] + " " + S[1] + " " + S[5] + " " + S[3]
                 # print("my_string", my_string)
                 # self.textEdit.setPlainText(my_string)
-                self.cmd_text = self.cmd_text + str(time.strftime('%Y-%m-%d %H:%M:%S')) + " " + str(my_string) + "\n"
+                self.cmd_text +=str(time.strftime('%Y-%m-%d %H:%M:%S')) + " " + str(my_string) + "\n"
                 try:
                     # Execute the SQL command
                     r = requests.post('https://tempapi.ct8.pl/addtemp',
