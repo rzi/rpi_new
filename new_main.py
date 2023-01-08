@@ -93,7 +93,7 @@ class Window(QWidget):
     def stop(self):
         print("Stop")
         self.myTimer.stop()
-
+        self.cmd_text = ''
     def init(self):
         print("Init")
 
@@ -108,15 +108,18 @@ class Window(QWidget):
 
     def update_gui(self):
         minsec = secs_to_minsec(self.time_left_int)
-        self.textEdit.setPlainText(minsec)
+        self.textEdit.setPlainText(self.cmd_text)
         print("timer", minsec)
+        print("cmd_text", self.cmd_text)
 
     def odczyt(self):
         print("data i czas", time.strftime('%Y-%m-%d %H:%M:%S'))
         self.textEdit.setPlainText(time.strftime('%Y-%m-%d %H:%M:%S'))
+        # self.cmd_text =self.cmd_text + "\n" + str(time.strftime('%Y-%m-%d %H:%M:%S'))
         fo = open(cmd1, "r+")
         Lines = fo.readlines()
         print("Lines: ", Lines)
+        # self.cmd_text = self.cmd_text  + "\n" + str(Lines)
         # self.textEdit.setPlainText(Lines)
         for line in Lines:
             S = str.split(line, " ")
@@ -140,6 +143,7 @@ class Window(QWidget):
                 my_string = S[0] + " " + S[1] + " " + S[5] + " " + S[3]
                 print("my_string", my_string)
                 self.textEdit.setPlainText(my_string)
+                self.cmd_text = self.cmd_text + str(time.strftime('%Y-%m-%d %H:%M:%S')) + " "+ str(my_string) +"\n"
                 try:
                     # Execute the SQL command
                     r = requests.post('https://tempapi.ct8.pl/addtemp',
