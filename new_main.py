@@ -58,37 +58,51 @@ class Window(QWidget):
         layout.addWidget(self.labelPath, 3, 0)
 
         self.textEdit = QTextEdit()
+        # self.textEdit.setPlainText("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
         self.textEdit.setPlainText("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
+
         self.textEdit.adjustSize()
-        self.textEdit.setFixedSize(500, 60)
+        self.textEdit.setFixedSize(500, 30)
         layout.addWidget(self.textEdit, 3, 1)
+
+        self.labelPath = QLabel("init cmd: ")
+        self.labelPath.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
+        layout.addWidget(self.labelPath, 4, 0)
+
+        self.init_cmd = QTextEdit()
+        # self.textEdit.setPlainText("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
+        self.init_cmd.setPlainText("")
+
+        self.init_cmd.adjustSize()
+        self.init_cmd.setFixedSize(500, 120)
+        layout.addWidget(self.init_cmd, 4, 1)
 
         self.labelPath = QLabel("Odczyt temperatur: ")
         self.labelPath.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
-        layout.addWidget(self.labelPath, 4, 0)
+        layout.addWidget(self.labelPath, 5, 0)
 
         button = QPushButton("Start", self)
         button.clicked.connect(self.start)
         button.setFixedSize(80, 25)
-        layout.addWidget(button, 5, 0)
+        layout.addWidget(button, 6, 0)
 
         button = QPushButton("Stop")
         button.clicked.connect(self.stop)
         button.setFixedSize(80, 25)
-        layout.addWidget(button, 5, 1)
+        layout.addWidget(button, 6, 1)
 
         button = QPushButton("Wyczyść")
         button.clicked.connect(self.clear)
         button.setFixedSize(80, 25)
-        layout.addWidget(button, 7, 1)
+        layout.addWidget(button, 8, 1)
 
         self.label = QLabel("CMD: ")
         self.label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop)
-        layout.addWidget(self.label, 6, 0)
+        layout.addWidget(self.label, 7, 0)
 
         self.textEdit = QTextEdit()
         self.textEdit.setPlainText("")
-        layout.addWidget(self.textEdit, 6, 1)
+        layout.addWidget(self.textEdit, 7, 1)
 
     def start(self):
         print("Start")
@@ -110,8 +124,11 @@ class Window(QWidget):
         print("Init")
         # directories = os.system("ls -lh")
         # print(directories)
-        directories = os.system("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
+        directories = os.system("ls")
+        # directories = os.system("sudo digitemp_DS9097U -i -s /dev/ttyUSB0 -c /home/Desktop/BMS/digitemp.conf")
         print(directories)
+        self.init_cmd.setPlainText("test")
+
         # subprocess.call(["init.sh", "--input_file=input.txt"])
         # subprocess.call(['sudo', 'digitemp_DS9097U', '-i', '-s', '/dev/ttyUSB0', '-c', '/home/Desktop/BMS/digitemp.conf'], shell=True)
         # subprocess.Popen([sys.executable, "init.py"])
@@ -126,6 +143,7 @@ class Window(QWidget):
     def update_gui(self):
         minsec = secs_to_minsec(self.time_left_int)
         self.textEdit.setPlainText(self.cmd_text)
+
         print("timer", minsec)
         print("cmd_text\n", self.cmd_text)
 
