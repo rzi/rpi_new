@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QTextEdit, QGridLayout
 )
 
-DURATION_INT = 10
+DURATION_INT = 60
 cmd = 'digitemp1.conf'
 cmd1 = './temp'
 timefmt = '%Y-%m-%d %H:%M:%S'
